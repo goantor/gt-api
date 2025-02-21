@@ -1,0 +1,16 @@
+@type = gtapi.v1
+
+# 文件头配置（最高优先级）
+@host = "http://localhost:3000"
+@headers = {
+    "User-Agent": "GT-API/1.0",
+    "Accept": "application/json"
+}
+
+# 使用环境变量
+@method = "测试配置优先级"
+GET /api/v1/users/123
+headers:
+    Authorization: Bearer {{token}}
+    X-Custom: {{headers.X-Custom}}
+    User-Agent: {{headers.User-Agent}} 

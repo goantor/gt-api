@@ -1,0 +1,163 @@
+# GT API 示例文档
+
+这个示例展示了 GT API 插件的各种功能和用法。每个请求都包含了完整的注释和说明。
+
+## 文件结构
+
+1. 类型声明（必需）
+```gtapi
+@type = gtapi.v1
+```
+
+2. 基础配置
+```gtapi
+@host = "https://api.example.com"  # API 基础地址
+@timeout = 5000                    # 超时时间（毫秒）
+@name = "用户管理 API 示例"        # 文件描述
+```
+
+3. 环境变量定义
+```gtapi
+$token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."  # JWT Token
+$user_id = "12345"                                    # 用户ID
+$page_size = "20"                                     # 分页大小
+```
+
+## 请求示例
+
+### 1. 基础 GET 请求
+```gtapi
+@name = "获取用户详情"
+GET /api/v1/users/{{$user_id}}
+headers:
+    Authorization: Bearer {{$token}}
+    Accept: application/json
+```
+
+### 2. 带查询参数的 GET 请求
+```gtapi
+@name = "获取用户列表"
+GET /api/v1/users?page=1&size={{$page_size}}&status=active
+headers:
+    Authorization: Bearer {{$token}}
+    Accept: application/json
+```
+
+### 3. POST 请求与 JSON 数据
+```gtapi
+@name = "创建用户"
+POST /api/v1/users
+headers:
+    Authorization: Bearer {{$token}}
+    Content-Type: application/json
+data:
+    {
+        "username": "张三",
+        "email": "zhangsan@example.com",
+        "role": "user",
+        "department": "技术部",
+        "status": "active"
+    }
+```
+
+### 4. PUT 请求进行更新
+```gtapi
+@name = "更新用户信息"
+PUT /api/v1/users/{{$user_id}}
+headers:
+    Authorization: Bearer {{$token}}
+    Content-Type: application/json
+data:
+    {
+        "email": "new.email@example.com",
+        "department": "产品部"
+    }
+```
+
+### 5. 使用 Hooks 的 DELETE 请求
+```gtapi
+@name = "删除用户"
+DELETE /api/v1/users/{{$user_id}}
+headers:
+    Authorization: Bearer {{$token}}
+hooks:
+    beforeRequest: (req) {
+        console.log("开始删除用户...");
+        req.startTime = Date.now();
+    }
+    
+    afterResponse: (res) {
+        const duration = Date.now() - req.startTime;
+        console.log(`请求完成，耗时: ${duration}ms`);
+        
+        if (res.status === 200) {
+            console.log("用户删除成功");
+        } else {
+            console.error("删除失败:", res.status);
+        }
+    }
+```
+
+### 6. 文件上传请求
+```gtapi
+@name = "上传用户头像"
+POST /api/v1/users/{{$user_id}}/avatar
+headers:
+    Authorization: Bearer {{$token}}
+    Content-Type: multipart/form-data
+data:
+    {
+        "file": "@./avatar.jpg",
+        "type": "image/jpeg"
+    }
+```
+
+### 7. PATCH 批量更新
+```gtapi
+@name = "批量更新用户状态"
+PATCH /api/v1/users/batch
+headers:
+    Authorization: Bearer {{$token}}
+    Content-Type: application/json
+data:
+    {
+        "userIds": ["123", "456", "789"],
+        "updates": {
+            "status": "inactive",
+            "lastModifiedBy": "admin"
+        }
+    }
+```
+
+## 特性说明
+
+1. **变量引用**
+   - 使用 `{{$变量名}}` 语法引用变量
+   - 变量可以在请求URL、请求头和请求体中使用
+
+2. **请求按钮**
+   - 每个 `@name` 行都会显示三个按钮：
+     * Execute：执行请求
+     * Copy：复制为 cURL 命令
+     * Save：保存到收藏
+
+3. **Hooks 功能**
+   - `beforeRequest`: 请求发送前执行
+   - `afterResponse`: 响应接收后执行
+   - 可以访问完整的请求和响应对象
+   - 支持完整的 JavaScript 语法
+
+4. **文件上传**
+   - 使用 `@文件路径` 语法指定上传文件
+   - 自动设置正确的 Content-Type
+   - 支持多文件上传
+
+5. **HTTP 方法**
+   - 支持所有标准 HTTP 方法：
+     * GET
+     * POST
+     * PUT
+     * DELETE
+     * PATCH
+     * HEAD
+     * OPTIONS 

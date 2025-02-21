@@ -1,0 +1,110 @@
+/*
+ * API 请求示例文件
+ * Example API Request File
+ * 
+ * 支持的特性 (Supported Features):
+ * 1. 环境变量 (Environment Variables): {{variable}}
+ * 2. 配置项 (Configuration): @host, @timeout 等
+ * 3. 钩子函数 (Hook Functions): beforeRequest, afterRequest 等
+ * 4. 响应处理 (Response Handling): response -> (res) { ... }
+ * 5. 多行注释 (Multi-line Comments): /* ... */
+ * 6. 单行注释 (Single-line Comments): # ...
+ */
+
+# 全局配置 (Global Configuration)
+@host = "https://api.example.com"  # API 主机地址 (API Host)
+@timeout = 5000  # 超时时间(ms) (Timeout in ms)
+@response_mode = "line"  # 响应显示模式 (Response Display Mode)
+
+# GET 请求示例 (GET Request Example)
+request api /users
+ -method: GET
+ -headers:
+    Authorization: Bearer {{token}}
+    Accept: application/json
+    User-Agent: {{global.headers.User-Agent}}
+
+# POST 请求示例 (POST Request Example)
+request api /users
+ -method: POST
+ -headers:
+    Content-Type: application/json
+    Authorization: Bearer {{token}}
+ -data: {
+    "name": "测试用户",
+    "email": "test@example.com",
+    "role": "user"
+ }
+
+# 带钩子的请求示例 (Request with Hooks Example)
+request api /login
+ -method: POST
+ -headers:
+    Content-Type: application/json
+ -data: {
+    "username": "{{username}}",
+    "password": "{{password}}"
+ }
+hooks:
+    beforeRequest: (req) {
+        // 请求前处理 (Pre-request Processing)
+        ant.log("准备发送请求...")
+        
+        // 密码加密 (Password Encryption)
+        if (req.data.password) {
+            req.data.password = ant.utils.encrypt(req.data.password)
+        }
+    }
+    
+    afterRequest: (res) {
+        // 请求后处理 (Post-request Processing)
+        ant.log("请求已发送")
+        
+        // 更新计数器 (Update Counter)
+        let count = parseInt(ant.hooks.storage.requestCount) || 0
+        ant.hooks.storage.requestCount = count + 1
+    }
+    
+    beforeResponse: (res) {
+        // 响应前处理 (Pre-response Processing)
+        if (res.status >= 400) {
+            ant.error(`请求失败: ${res.status}`)
+        }
+    }
+    
+    afterResponse: (res) {
+        // 响应后处理 (Post-response Processing)
+        if (res.data.token) {
+            ant.env.set("token", res.data.token)
+            ant.log("Token已保存")
+        }
+    }
+
+# 带响应处理的请求示例 (Request with Response Handler Example)
+request api /data
+ -method: GET
+ -headers:
+    Accept: application/json
+response -> (res) {
+    try {
+        // 数据处理 (Data Processing)
+        const data = res.data
+        
+        // 数据转换 (Data Transformation)
+        const processed = data.map(item => ({
+            ...item,
+            processedAt: new Date().toISOString()
+        }))
+        
+        // 保存结果 (Save Results)
+        ant.hooks.storage.cache.lastData = processed
+        
+        return processed
+    } catch (err) {
+        ant.error("数据处理错误:", err.message)
+        throw err
+    }
+}
+
+# 更多示例请参考文档 (More Examples in Documentation)
+# https://github.com/your-repo/easy-requester/docs 

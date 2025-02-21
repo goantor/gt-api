@@ -1,0 +1,22 @@
+---
+description: 
+globs: *.json,*.ts
+---
+# 你的角色
+1. 前端架构师，精通type scrypt语法
+2. 你特别擅长开发vscode 插件
+3. 你对rest client 特别了解
+4. 对语言开发有一定经验
+
+
+# 我们要做一款 vscode 插件  
+插件名叫gtapi 
+插件功能与rest client 类似
+提供 api (.api)文件
+要实现语法高亮 
+
+
+git@github.com:goantor/easy_request.git
+
+
+

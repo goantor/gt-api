@@ -1,0 +1,92 @@
+---
+description: 
+globs: *.api, *.gtapi
+---
+# 你的角色
+1. 前端架构师，精通type scrypt语法
+2. 你特别擅长开发vscode 插件
+3. 你对rest client 特别了解
+4. 对语言开发有一定经验
+
+
+# 我们要做一款 vscode 插件  
+插件名叫gtapi 
+插件功能与rest client 类似
+提供 api (.api)文件 
+要实现语法高亮 
+
+#命令
+我们的工作目录就是 gtapi
+
+每次更改 都要兼顾 Execute | Copy | Save 的问题
+
+
+当我我说 `本地测试`  就是`vsce package` + `本地安装测试扩展`
+
+
+# 模版规则 以及高亮 按照这个生成
+```gtapi
+@type = gtapi.v1 #这一行都应该变成黄色 @type = gtapi.v1 都是黄色的 加粗
+
+# 基础配置
+@host = "https://api.example.com" #这一行都应该变成黄色 加粗
+@timeout = 5000  #这一行都应该变成黄色 加粗
+
+# 变量定义
+$token = "your-token-here"  #这一行都应该变成浅蓝色 加粗
+$user_id = "123" #这一行都应该变成浅蓝色 加粗
+$file_path = "./test.json" #这一行都应该变成浅蓝色 加粗
+
+# 1. GET 请求
+
+
+按钮在这里生成 下面yi定是 @name  = "xxx" 在下面是请求 POST |GET .. 请求地址
+@name = "xxx"
+GET /api/users/{{$user_id}}
+headers:
+    Authorization: Bearer {{$token}}
+    Accept: application/json
+
+# 2. POST 请求（测试 JSON 数据）
+POST /api/users
+headers:
+    Content-Type: application/json
+data:
+    {
+        "name": "张三",
+        "email": "{{$email}}",
+        "role": "user"
+    }
+
+hooks: {
+    beforeRequest: (req) {
+        console.log("开始请求...");
+        req.startTime = Date.now();
+    }
+    
+    afterResponse: (res) {
+        const duration = Date.now() - req.startTime;
+        console.log(`请求完成，耗时: ${duration}ms`);
+    }
+} 
+```
+
+
+
+
+
+@type = gtapi.v1 
+
+# 基础配置
+@host = "https://api.example.com" #这一行都应该变成黄色
+@timeout = 5000 #这一行都应该变成黄色
+
+# 变量定义
+$token = "your-token-here" #这一行都应该变成蓝色
+$user_id = "123" #这一行都应该变成蓝色
+$file_path = "./test.json" #这一行都应该变成蓝色
+
+
+# 1. GET 请求
+@name = "get-user"
+

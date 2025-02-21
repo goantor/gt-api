@@ -1,0 +1,12 @@
+# 测试 GET 请求
+curl -X GET "https://api.github.com/users/microsoft" \
+     -H "Accept: application/json"
+
+# 测试 POST 请求
+curl -X POST "https://httpbin.org/post" \
+     -H "Content-Type: application/json" \
+     --json '{
+         "name": "测试",
+         "age": 18,
+         "message": "Hello from Easy Requester!"
+     }' 

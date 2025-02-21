@@ -1,0 +1,10 @@
+{
+    "/api/v1/auth/login": "/auth",
+    "/api/v1/users/:id": "/users/:id",
+    "/api/v1/users": "/users",
+    "/api/v1/users/:id/avatar": "/users/:id",
+    "/api/v1/orders/:id": "/orders/:id",
+    "/api/v1/orders": "/orders",
+    "/api/v1/orders/batch": "/orders",
+    "/api/v1/statistics/sales": "/statistics"
+} 

@@ -1,0 +1,155 @@
+{
+  "name": "gt-api",
+  "displayName": "GT API",
+  "description": "A powerful REST API client for VS Code, supporting .api files with modern features",
+  "version": "0.0.2",
+  "publisher": "goants",
+  "license": "MIT",
+  "author": {
+    "name": "goant-team",
+    "email": "goants@163.com",
+    "url": "https://github.com/goants"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/goantor/gt-api.git"
+  },
+  "engines": {
+    "vscode": "^1.96.0"
+  },
+  "categories": [
+    "Programming Languages",
+    "Other"
+  ],
+  "activationEvents": [
+    "onLanguage:gtapi",
+    "workspaceContains:**/*.gtapi",
+    "workspaceContains:**/*.api",
+    "onCommand:gt-api.Execute",
+    "onCommand:gt-api.copyAsCurl",
+    "onCommand:gt-api.saveToCollection",
+    "onCommand:gt-api.switchEnvironment",
+    "onStartupFinished"
+  ],
+  "main": "./dist/extension.js",
+  "contributes": {
+    "languages": [
+      {
+        "id": "gtapi",
+        "aliases": [
+          "GT API",
+          "gtapi"
+        ],
+        "extensions": [
+          ".gtapi",
+          ".api"
+        ],
+        "configuration": "./language-configuration/gtapi.json"
+      }
+    ],
+    "grammars": [
+      {
+        "language": "gtapi",
+        "scopeName": "source.gtapi",
+        "path": "./syntaxes/gtapi.tmLanguage.json"
+      }
+    ],
+    "themes": [
+      {
+        "label": "GT API Dark",
+        "uiTheme": "vs-dark",
+        "path": "./themes/dark.json"
+      }
+    ],
+    "commands": [
+      {
+        "command": "gt-api.Execute",
+        "title": "Execute",
+        "category": "GT API",
+        "icon": "$(play)"
+      },
+      {
+        "command": "gt-api.copyAsCurl",
+        "title": "Copy",
+        "category": "GT API",
+        "icon": "$(copy)"
+      },
+      {
+        "command": "gt-api.saveToCollection",
+        "title": "Save",
+        "category": "GT API",
+        "icon": "$(bookmark)"
+      },
+      {
+        "command": "gt-api.switchEnvironment",
+        "title": "Switch Environment",
+        "category": "GT API"
+      }
+    ],
+    "keybindings": [
+      {
+        "command": "gt-api.Execute",
+        "key": "ctrl+alt+r",
+        "mac": "cmd+alt+r",
+        "when": "editorTextFocus && editorLangId == 'gtapi'"
+      }
+    ],
+    "configurationDefaults": {
+      "files.associations": {
+        "*.gtapi": "gtapi",
+        "*.api": "gtapi"
+      },
+      "[gtapi]": {
+        "editor.defaultFormatter": "goants.gt-api"
+      }
+    },
+    "configuration": {
+      "title": "GT API",
+      "properties": {
+        "gtApi.enableCodeLens": {
+          "type": "boolean",
+          "default": true,
+          "description": "在每个请求上显示 Execute 按钮"
+        },
+        "gtApi.showResponseInSidePanel": {
+          "type": "boolean",
+          "default": true,
+          "description": "在侧边栏显示响应结果"
+        }
+      }
+    }
+  },
+  "scripts": {
+    "vscode:prepublish": "npm run package",
+    "compile": "webpack",
+    "watch": "webpack --watch",
+    "package": "webpack --mode production --devtool hidden-source-map",
+    "compile-tests": "tsc -p . --outDir out",
+    "watch-tests": "tsc -p . -w --outDir out",
+    "pretest": "npm run compile-tests && npm run compile && npm run lint",
+    "lint": "eslint src",
+    "test": "vscode-test",
+    "mock": "json-server --watch mock/db.js --routes mock/routes.json --port 3000 --middlewares mock/middleware.js"
+  },
+  "devDependencies": {
+    "@faker-js/faker": "^9.5.0",
+    "@types/mocha": "^10.0.10",
+    "@types/node": "20.x",
+    "@types/vscode": "^1.96.0",
+    "@typescript-eslint/eslint-plugin": "^8.22.0",
+    "@typescript-eslint/parser": "^8.22.0",
+    "@vscode/test-cli": "^0.0.10",
+    "@vscode/test-electron": "^2.4.1",
+    "eslint": "^9.19.0",
+    "json-server": "^0.17.4",
+    "ts-loader": "^9.5.2",
+    "typescript": "^5.7.3",
+    "webpack": "^5.97.1",
+    "webpack-cli": "^6.0.1"
+  },
+  "dependencies": {
+    "axios": "^1.6.7",
+    "node-fetch": "^3.3.2",
+    "yaml": "^2.7.0"
+  }
+}

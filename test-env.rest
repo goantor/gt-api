@@ -1,0 +1,15 @@
+### 使用环境变量的GET请求
+GET {{baseUrl}}/users/microsoft
+Accept: application/json
+
+### 带API Key的POST请求
+POST https://httpbin.org/post
+Content-Type: application/json
+X-API-Key: {{apiKey}}
+
+```json
+{
+    "name": "测试环境变量",
+    "message": "Hello from {{currentEnv}}!"
+}
+``` 

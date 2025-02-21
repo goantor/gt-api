@@ -1,0 +1,15 @@
+### 测试 GET 请求
+GET https://api.github.com/users/microsoft
+Accept: application/json
+
+### 测试 POST 请求
+POST https://httpbin.org/post
+Content-Type: application/json
+
+```json
+{
+    "name": "测试",
+    "age": 18,
+    "message": "Hello from Easy Requester!"
+}
+``` 

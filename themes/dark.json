@@ -1,0 +1,63 @@
+{
+    "name": "GT API Dark",
+    "type": "dark",
+    "colors": {
+        "editor.background": "#1E1E1E",
+        "editor.foreground": "#D4D4D4"
+    },
+    "tokenColors": [
+        {
+            "scope": ["markup.bold.yellow.gtapi"],
+            "settings": {
+                "foreground": "#FFD700",
+                "fontStyle": "bold"
+            }
+        },
+        {
+            "scope": ["markup.bold.lightblue.gtapi"],
+            "settings": {
+                "foreground": "#00BFFF",
+                "fontStyle": "bold"
+            }
+        },
+        {
+            "scope": "entity.name.function.gtapi",
+            "settings": {
+                "foreground": "#DCDCAA",
+                "fontStyle": "bold"
+            }
+        },
+        {
+            "scope": "keyword.other.http-method.gtapi",
+            "settings": {
+                "foreground": "#C586C0",
+                "fontStyle": "bold"
+            }
+        },
+        {
+            "scope": "string.unquoted.url.gtapi",
+            "settings": {
+                "foreground": "#4EC9B0"
+            }
+        },
+        {
+            "scope": "storage.type.section.gtapi",
+            "settings": {
+                "foreground": "#569CD6",
+                "fontStyle": "bold"
+            }
+        },
+        {
+            "scope": ["source.json", "source.js"],
+            "settings": {
+                "foreground": "#D4D4D4"
+            }
+        },
+        {
+            "scope": "comment.line.number-sign.gtapi",
+            "settings": {
+                "foreground": "#6A9955"
+            }
+        }
+    ]
+} 

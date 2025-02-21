@@ -1,0 +1,16 @@
+{
+    "development": {
+        "baseUrl": "https://api.github.com",
+        "apiKey": "your-api-key-here",
+        "defaultHeaders": {
+            "User-Agent": "Easy-Requester"
+        }
+    },
+    "production": {
+        "baseUrl": "https://api.github.com",
+        "apiKey": "{{PROD_API_KEY}}",
+        "defaultHeaders": {
+            "User-Agent": "Easy-Requester"
+        }
+    }
+} 
